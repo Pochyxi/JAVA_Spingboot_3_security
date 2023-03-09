@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class DemoController {
 
     @GetMapping("users/{id}")
-    @PreAuthorize("hasRole('ADMIN') or (#id == authentication.principal.id)")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<String> sayHello(@PathVariable Long id) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         System.out.println(authentication);
