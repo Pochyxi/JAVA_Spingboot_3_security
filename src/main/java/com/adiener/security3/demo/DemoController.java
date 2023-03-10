@@ -40,8 +40,12 @@ public class DemoController {
     public ResponseEntity<User> updateUser( @PathVariable("id") Integer id, @RequestBody User userToUpdate) {
         Optional<User> existingUserOptional = userRepository.findById(id);
         if (existingUserOptional.isPresent()) {
-            User existingUser = existingUserOptional.get();
-            if (existingUser.getId().equals(userToUpdate.getId())) {
+            // prima di salvare controlliamo che l'utente della richiesta è lo stesso utente della modifica
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String userEmail = authentication.getName();
+
+            if (userEmail.equals(userToUpdate.getUsername())) {
+
                 User updatedUser = userRepository.save(userToUpdate);
                 return ResponseEntity.ok(updatedUser);
             } else {

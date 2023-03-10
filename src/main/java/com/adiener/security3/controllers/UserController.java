@@ -15,14 +15,17 @@ public class UserController {
 
     private final UserService userService;
 
-    @PutMapping("/modify")
-    @PreAuthorize( "hasRole('USER')" )
+    @PutMapping("/modify") // SOLO PROPRETARIO ACCOUNT E ADMIN
     public ResponseEntity<User> updateUser( @RequestBody UserUpdateRequest request ) throws Exception {
-        return ResponseEntity.ok(userService.creatAndUpdate(request));
+        return ResponseEntity.ok(userService.creatAndUpdateUserAdmin(request));
+    }
+
+    @PutMapping("make-admin")
+    public ResponseEntity<User> makeUserAdmin(@RequestBody UserUpdateRequest request) throws Exception {
+        return ResponseEntity.ok(userService.updateUserAdmin(request));
     }
 
     @DeleteMapping("/delete/{email}")
-    @PreAuthorize( "hasRole('USER')" )
     public ResponseEntity<String> deleteUser(@PathVariable("email") String email) throws Exception {
         return userService.deleteByEmail( email );
     }

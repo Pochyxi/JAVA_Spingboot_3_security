@@ -4,6 +4,7 @@ import com.adiener.security3.auth.AuthenticationRequest;
 import com.adiener.security3.auth.AuthenticationResponse;
 import com.adiener.security3.auth.AuthenticationService;
 import com.adiener.security3.auth.RegisterRequest;
+import com.adiener.security3.models.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,7 +24,7 @@ public class AuthenticationController {
     public ResponseEntity<AuthenticationResponse> register(
             @RequestBody RegisterRequest request
     ) {
-       return ResponseEntity.ok(service.register(request));
+       return ResponseEntity.ok(service.register(request, Role.USER));
     }
 
     @PostMapping("/authenticate")

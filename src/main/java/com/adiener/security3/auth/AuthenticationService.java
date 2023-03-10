@@ -20,15 +20,15 @@ public class AuthenticationService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
-    public AuthenticationResponse register( RegisterRequest request ) {
+    public AuthenticationResponse register( RegisterRequest request, Role role ) {
         var user = User.builder()
                 .firstName( request.getFirstname() )
                 .lastName( request.getLastname() )
                 .dateOfBirth( LocalDate.parse( request.getDateOfBirth() ) )
                 .number( request.getNumber() )
-                .email( request.getEmail())
+                .username( request.getUsername())
                 .password( passwordEncoder.encode( request.getPassword() ) )
-                .role( Role.USER )
+                .role( role )
                 .build();
         repository.save( user );
         var jwtToken =  jwtService.generateToken( user );
@@ -39,7 +39,7 @@ public class AuthenticationService {
                 .dateOfBirth( user.getDateOfBirth() )
                 .age( user.calculateAge() )
                 .number( user.getNumber() )
-                .email( user.getEmail() )
+                .username( user.getUsername() )
                 .role( user.getRole() )
                 .token( jwtToken )
                 .build();
@@ -52,7 +52,7 @@ public class AuthenticationService {
                         request.getPassword()
                 )
         );
-        var user = repository.findByEmail( request.getEmail() )
+        var user = repository.findByUsername( request.getEmail() )
                 .orElseThrow();
         var jwtToken =  jwtService.generateToken( user );
         return AuthenticationResponse.builder()
@@ -62,7 +62,7 @@ public class AuthenticationService {
                 .dateOfBirth( user.getDateOfBirth() )
                 .number( user.getNumber() )
                 .age( user.calculateAge() )
-                .email( user.getEmail() )
+                .username( user.getUsername() )
                 .role( user.getRole() )
                 .token( jwtToken )
                 .build();

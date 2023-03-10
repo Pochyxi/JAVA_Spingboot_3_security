@@ -18,4 +18,6 @@ public class UserUpdateRequest {
     private String lastName;
     private String dateOfBirth;
     private Integer number;
+
+    private Role role;
 }

@@ -13,10 +13,10 @@ import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Integer> {
 
-    Optional<User> findByEmail(String email);
+    Optional<User> findByUsername(String username);
     List<User> findAllByRole( Role role);
 
-    void deleteByEmail(String email);
+    void deleteByUsername(String username);
 
     @Query(
             value = "select c from User c where upper(c.lastName) like upper(concat('%', :lastname, "
