@@ -1,4 +1,4 @@
-package com.adiener.security3.user;
+package com.adiener.security3.models;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -9,6 +9,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.Collection;
 import java.util.List;
 
@@ -23,18 +25,41 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue
     private Integer id;
-    private String firstname;
-    private String lastname;
+
+    private String firstName;
+    private String lastName;
+    @Column(unique = true, length = 30)
     private String email;
     private String password;
+
+    private LocalDate dateOfBirth;
+
+    private Integer number;
+
+    @Transient
+    private Integer age;
 
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    public Integer calculateAge() {
+        if (this.dateOfBirth != null) {
+            LocalDate now = LocalDate.now();
+            Period period = Period.between(this.dateOfBirth, now);
+            this.age = period.getYears();
+        }
+        return this.age;
+    }
+
+    public void setDateOfBirthDay( LocalDate dateOfBirthDay ) {
+        this.dateOfBirth = dateOfBirthDay;
+        this.age = null; // reset age when dateOfBirthDay is updated
+    }
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority( role.name() ) );
+        return List.of( new SimpleGrantedAuthority( role.name() ) );
     }
 
     @Override

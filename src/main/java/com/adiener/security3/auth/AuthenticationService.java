@@ -1,14 +1,16 @@
 package com.adiener.security3.auth;
 
 import com.adiener.security3.config.JwtService;
-import com.adiener.security3.user.Role;
-import com.adiener.security3.user.User;
-import com.adiener.security3.user.UserRepository;
+import com.adiener.security3.models.Role;
+import com.adiener.security3.models.User;
+import com.adiener.security3.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
 
 @Service
 @RequiredArgsConstructor
@@ -20,8 +22,10 @@ public class AuthenticationService {
 
     public AuthenticationResponse register( RegisterRequest request ) {
         var user = User.builder()
-                .firstname( request.getFirstname() )
-                .lastname( request.getLastname() )
+                .firstName( request.getFirstname() )
+                .lastName( request.getLastname() )
+                .dateOfBirth( LocalDate.parse( request.getDateOfBirth() ) )
+                .number( request.getNumber() )
                 .email( request.getEmail())
                 .password( passwordEncoder.encode( request.getPassword() ) )
                 .role( Role.USER )
@@ -30,8 +34,11 @@ public class AuthenticationService {
         var jwtToken =  jwtService.generateToken( user );
         return AuthenticationResponse.builder()
                 .id( user.getId() )
-                .firstName( user.getFirstname() )
-                .lastName( user.getLastname() )
+                .firstName( user.getFirstName() )
+                .lastName( user.getLastName() )
+                .dateOfBirth( user.getDateOfBirth() )
+                .age( user.calculateAge() )
+                .number( user.getNumber() )
                 .email( user.getEmail() )
                 .role( user.getRole() )
                 .token( jwtToken )
@@ -50,8 +57,11 @@ public class AuthenticationService {
         var jwtToken =  jwtService.generateToken( user );
         return AuthenticationResponse.builder()
                 .id( user.getId() )
-                .firstName( user.getFirstname() )
-                .lastName( user.getLastname() )
+                .firstName( user.getFirstName() )
+                .lastName( user.getLastName() )
+                .dateOfBirth( user.getDateOfBirth() )
+                .number( user.getNumber() )
+                .age( user.calculateAge() )
                 .email( user.getEmail() )
                 .role( user.getRole() )
                 .token( jwtToken )

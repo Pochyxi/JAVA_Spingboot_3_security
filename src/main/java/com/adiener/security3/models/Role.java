@@ -1,4 +1,4 @@
-package com.adiener.security3.user;
+package com.adiener.security3.models;
 
 public enum Role {
 

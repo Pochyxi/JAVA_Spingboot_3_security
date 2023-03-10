@@ -1,4 +1,4 @@
-package com.adiener.security3.auth;
+package com.adiener.security3.requestModels;
 
 import com.adiener.security3.models.Role;
 import lombok.AllArgsConstructor;
@@ -10,19 +10,12 @@ import java.time.LocalDate;
 
 @Data
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
-public class AuthenticationResponse {
-
+@AllArgsConstructor
+public class UserUpdateRequest {
     private Integer id;
     private String firstName;
     private String lastName;
-    private String email;
-    private LocalDate dateOfBirth;
-
-    private Integer age;
-
+    private String dateOfBirth;
     private Integer number;
-    private Role role;
-    private String token;
 }

@@ -1,5 +1,9 @@
-package com.adiener.security3.auth;
+package com.adiener.security3.controllers;
 
+import com.adiener.security3.auth.AuthenticationRequest;
+import com.adiener.security3.auth.AuthenticationResponse;
+import com.adiener.security3.auth.AuthenticationService;
+import com.adiener.security3.auth.RegisterRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

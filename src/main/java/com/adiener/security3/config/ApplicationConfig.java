@@ -1,6 +1,6 @@
 package com.adiener.security3.config;
 
-import com.adiener.security3.user.UserRepository;
+import com.adiener.security3.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
